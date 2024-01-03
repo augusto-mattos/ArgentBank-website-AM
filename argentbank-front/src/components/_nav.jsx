@@ -27,7 +27,7 @@ function Navbar() {
             <i class="fa fa-user-circle"></i>
             Tony
           </a>
-          <a class="main-nav-item" href="./index">
+          <a class="main-nav-item" href="./">
             <i class="fa fa-sign-out"></i>
             Sign Out
           </a>
