@@ -34,6 +34,10 @@ html {
     width: 1px !important;
     white-space: nowrap !important; /* 3 */
   }
+
+  .d-none {
+    display: none;
+  }
   
   .main-nav {
     display: flex;

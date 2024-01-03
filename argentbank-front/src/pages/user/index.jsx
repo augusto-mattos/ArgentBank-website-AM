@@ -1,9 +1,15 @@
+import UserHeader from "../../components/_userHeader";
+import Account from "../../components/_account";
+
 function User() {
-    return (
-      <>
-        <h1>User</h1>
-      </>
-    );
-  }
-  
-  export default User;
+  return (
+    <>
+      <main class="main bg-dark">
+        <UserHeader />
+        <Account />
+      </main>
+    </>
+  );
+}
+
+export default User;
