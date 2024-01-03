@@ -34,6 +34,10 @@ html {
     width: 1px !important;
     white-space: nowrap !important; /* 3 */
   }
+
+  .d-none {
+    display: none;
+  }
   
   .main-nav {
     display: flex;
@@ -159,6 +163,7 @@ html {
   
   .sign-in-button {
     display: block;
+    border: none;
     width: 100%;
     padding: 8px;
     font-size: 1.1rem;
