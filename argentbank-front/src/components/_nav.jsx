@@ -1,9 +1,22 @@
+import { useEffect, useState } from "react";
 import logo from "../assets/argentBankLogo.png"
 
 function Navbar() {
 
-  const currentPathname = window.location.pathname;
-  const userPage = currentPathname.includes('/user');
+  const [isLoggedIn, setIsLoggedIn] = useState();
+
+  useEffect(() => {
+    if(sessionStorage.getItem("token")) {
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
+    }
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("token")
+    setIsLoggedIn(false)
+  }
 
   return (
     <>
@@ -16,18 +29,18 @@ function Navbar() {
           />
           <h1 class="sr-only">Argent Bank</h1>
         </a>
-        <div className={userPage ? "d-none" : ""}>
+        <div className={isLoggedIn ? "d-none" : ""}>
           <a class="main-nav-item" href="./sign-in">
             <i class="fa fa-user-circle"></i>
             Sign In
           </a>
         </div>
-        <div className={userPage ? "" : "d-none"}>
+        <div className={isLoggedIn ? "" : "d-none"}>
           <a class="main-nav-item" href="./user">
             <i class="fa fa-user-circle"></i>
             Tony
           </a>
-          <a class="main-nav-item" href="./">
+          <a class="main-nav-item" href="./" onClick={handleLogout}>
             <i class="fa fa-sign-out"></i>
             Sign Out
           </a>

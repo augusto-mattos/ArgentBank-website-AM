@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 
+import Navbar from "../../components/_nav";
+
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +25,7 @@ function SignIn() {
 
   return (
     <>
+      <Navbar />
       <main class="main bg-dark">
         <section class="sign-in-content">
           <i class="fa fa-user-circle sign-in-icon"></i>
