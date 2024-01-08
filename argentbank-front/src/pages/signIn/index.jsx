@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../store/userSlice";
+import { loginUser } from "../../store/authenticationSlice";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "../../components/_nav";
@@ -11,17 +11,17 @@ function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function submitForm(e) {
+  async function submitForm(e) {
     e.preventDefault();
     let userCredentials = { email, password };
-    dispatch(loginUser(userCredentials)).then((result) => {
-      if (result.payload) {
-        setEmail("");
-        setPassword("");
-        navigate("/user");
-      }
-    });
-  }
+    try {
+      const response = await dispatch(loginUser(userCredentials));
+      console.log("Login response:", response);
+    } catch (error) {
+      console.log(error);
+    }
+    navigate("/user");
+  };
 
   return (
     <>
