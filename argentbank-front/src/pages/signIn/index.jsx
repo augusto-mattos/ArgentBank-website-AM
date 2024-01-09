@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../store/authenticationSlice";
+import { loginUser, login } from "../../store/authenticationSlice";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "../../components/_nav";
@@ -16,7 +16,7 @@ function SignIn() {
     let userCredentials = { email, password };
     try {
       const response = await dispatch(loginUser(userCredentials));
-      sessionStorage.setItem("token", response.payload.body.token)
+      dispatch(login(response));
     } catch (error) {
       console.log(error);
     }
