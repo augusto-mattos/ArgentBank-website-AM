@@ -5,7 +5,7 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (userCredentials) => {
     try {
-      const response = await fetchLoginUser(userCredentials);
+      const response = await fetchLoginUser(userCredentials); 
       sessionStorage.setItem("token", response.body.token)
       return response;
     } catch (error) {
@@ -14,9 +14,18 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+let isAuthenticated = false;
+
+const tokenFromSessionStorage = sessionStorage.getItem("token");
+if (tokenFromSessionStorage) {
+  isAuthenticated = true;
+} else {
+  isAuthenticated = false;
+}
+
 const initialState = {
-  userToken: "",
-  isAuthenticated: false,
+  userToken: tokenFromSessionStorage || "",
+  isAuthenticated: isAuthenticated,
 };
 
 const authenticationSlice = createSlice({

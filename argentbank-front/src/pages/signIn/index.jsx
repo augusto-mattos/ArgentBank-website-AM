@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser, login } from "../../store/authenticationSlice";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,13 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  
   const navigate = useNavigate();
+  useEffect(() => {
+    if(sessionStorage.getItem("token")) {
+      navigate("/user");
+    }
+  })
 
   async function submitForm(e) {
     e.preventDefault();
@@ -19,8 +25,8 @@ function SignIn() {
       dispatch(login(response));
     } catch (error) {
       console.log(error);
-    }
-    navigate("/user");
+    }    
+    navigate();
   };
 
   return (
