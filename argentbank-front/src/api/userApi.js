@@ -13,7 +13,6 @@ export const fetchLoginUser = async (userCredentials) => {
     }
 
     const response = await request.json();
-    sessionStorage.setItem("token", response.body.token);
 
     return response;
   } catch (error) {

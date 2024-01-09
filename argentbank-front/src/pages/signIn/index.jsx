@@ -16,7 +16,7 @@ function SignIn() {
     let userCredentials = { email, password };
     try {
       const response = await dispatch(loginUser(userCredentials));
-      console.log("Login response:", response);
+      sessionStorage.setItem("token", response.payload.body.token)
     } catch (error) {
       console.log(error);
     }
