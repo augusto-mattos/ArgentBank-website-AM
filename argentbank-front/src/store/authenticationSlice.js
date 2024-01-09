@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   async (userCredentials) => {
     try {
       const response = await fetchLoginUser(userCredentials);
-      console.log(response);
+      sessionStorage.setItem("token", response.body.token)
       return response;
     } catch (error) {
       throw new Error(error.message);
@@ -15,8 +15,8 @@ export const loginUser = createAsyncThunk(
 );
 
 const initialState = {
+  userToken: "",
   isAuthenticated: false,
-  user: null,
 };
 
 const authenticationSlice = createSlice({
@@ -24,13 +24,12 @@ const authenticationSlice = createSlice({
   initialState,
   reducers: {
     login(state, action) {
+      state.userToken = action.payload.token;
       state.isAuthenticated = true;
-      state.user = action.payload.user;
-      console.log(action.payload.user)
     },
     logout(state) {
+      state.userToken = "";
       state.isAuthenticated = false;
-      state.user = null;
     },
   },
 });
