@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userInfos } from "../store/userProfileSlice";
+
 import logo from "../assets/argentBankLogo.png"
 
 function Navbar() {
@@ -17,6 +20,13 @@ function Navbar() {
     sessionStorage.removeItem("token")
     setIsLoggedIn(false)
   }
+
+  const dispatch = useDispatch();
+  const firstName = useSelector((state) => state.userProfile.firstName);
+
+  useEffect(() => {
+    dispatch(userInfos());
+  }, [dispatch]);
 
   return (
     <>
@@ -38,7 +48,7 @@ function Navbar() {
         <div className={isLoggedIn ? "" : "d-none"}>
           <a class="main-nav-item" href="./user">
             <i class="fa fa-user-circle"></i>
-            Tony
+            {firstName}
           </a>
           <a class="main-nav-item" href="./" onClick={handleLogout}>
             <i class="fa fa-sign-out"></i>
