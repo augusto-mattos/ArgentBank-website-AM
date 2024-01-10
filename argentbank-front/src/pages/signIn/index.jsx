@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { loginUser, login } from "../../store/authenticationSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/authenticationSlice";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "../../components/_nav";
@@ -9,10 +9,11 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.authentication.isAuthenticated);
   
   const navigate = useNavigate();
   useEffect(() => {
-    if(sessionStorage.getItem("token")) {
+    if(isAuthenticated) {
       navigate("/user");
     }
   })
@@ -21,12 +22,10 @@ function SignIn() {
     e.preventDefault();
     let userCredentials = { email, password };
     try {
-      const response = await dispatch(loginUser(userCredentials));
-      dispatch(login(response));
+      await dispatch(loginUser(userCredentials));
     } catch (error) {
       console.log(error);
     }    
-    navigate();
   };
 
   return (

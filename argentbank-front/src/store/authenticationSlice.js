@@ -14,34 +14,24 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-let isAuthenticated = false;
-
 const tokenFromSessionStorage = sessionStorage.getItem("token");
-if (tokenFromSessionStorage) {
-  isAuthenticated = true;
-} else {
-  isAuthenticated = false;
-}
 
 const initialState = {
   userToken: tokenFromSessionStorage || "",
-  isAuthenticated: isAuthenticated,
+  isAuthenticated: !!tokenFromSessionStorage,
 };
 
 const authenticationSlice = createSlice({
   name: "authentication",
   initialState,
   reducers: {
-    login(state, action) {
-      state.userToken = action.payload.token;
-      state.isAuthenticated = true;
-    },
-    logout(state) {
-      state.userToken = "";
-      state.isAuthenticated = false;
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      state.userToken = action.payload; 
+      state.isAuthenticated = true; 
+    });
   },
 });
 
-export const { login, logout } = authenticationSlice.actions;
 export default authenticationSlice.reducer;
