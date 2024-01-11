@@ -4,7 +4,7 @@ import { fetchUserProfile } from "../api/userApi";
 export const userInfos = createAsyncThunk("user/userInfos", async () => {
   try {
     const response = await fetchUserProfile();
-    console.log(response);
+    //console.log(response);
     return response;
   } catch (error) {
     throw new Error(error.message);
@@ -17,7 +17,7 @@ const userProfile = createSlice({
   name: "profile",
   initialState,
   reducers: {
-    setUserName: (state, action) => {
+    /*setUserName: (state, action) => {
       state.userName = action.payload;
     },
     setFirstName: (state, action) => {
@@ -25,7 +25,7 @@ const userProfile = createSlice({
     },
     setLastName: (state, action) => {
       state.userName = action.payload;
-    },
+    },*/
   },
   extraReducers: (builder) => {
     builder.addCase(userInfos.fulfilled, (state, action) => {
