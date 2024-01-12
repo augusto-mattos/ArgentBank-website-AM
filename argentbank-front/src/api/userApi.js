@@ -40,3 +40,28 @@ export const fetchUserProfile = async () => {
     throw new Error(error.message);
   }
 };
+
+export const fetchNewUsername = async () => {
+  const token = sessionStorage.getItem("token");
+  const NewUserName = sessionStorage.getItem("username");
+  try {
+    const request = await fetch("http://localhost:3001/api/v1/user/profile", {
+      method: "PUT",
+      body: JSON.stringify({ userName: NewUserName }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!request.ok) {
+      throw new Error("Error " + request.status);
+    }
+
+    const response = await request.json();
+    console.log(response)
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userInfos } from "../store/userProfileSlice";
+import { fetchNewUsername } from "../api/userApi";
 import EditUsernameForm from "./_editUsername";
 
 function UserHeader() {
@@ -15,7 +16,17 @@ function UserHeader() {
 
   const usernameEdition = () => {
     setChangeUsername(!changeUsername);
+    sessionStorage.removeItem("username");
   };
+  
+  const saveNewUsername = async () => {
+    try {
+      await fetchNewUsername();
+      window.location.reload();
+    } catch (error) {
+    console.error("Error saving new username:", error.message);
+  }
+};
 
   return (
     <div class="header">
@@ -24,7 +35,7 @@ function UserHeader() {
           <h2>Edit user info</h2>
           <EditUsernameForm userInfos={userProfile} />
           <div className="edit-form-buttons">
-            <button type="submit">Save</button>
+            <button onClick={saveNewUsername} type="submit">Save</button>
             <button onClick={usernameEdition}>Cancel</button>
           </div>
         </>
