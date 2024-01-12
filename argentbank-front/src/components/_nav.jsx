@@ -17,7 +17,7 @@ function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    sessionStorage.removeItem("token")
+    sessionStorage.clear()
     setIsLoggedIn(false)
   }
 
@@ -25,8 +25,10 @@ function Navbar() {
   const firstName = useSelector((state) => state.userProfile.firstName);
 
   useEffect(() => {
-    dispatch(userInfos());
-  }, [dispatch]);
+    if(isLoggedIn) {
+      dispatch(userInfos());
+    }
+  },);
 
   return (
     <>
