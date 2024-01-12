@@ -1,5 +1,9 @@
 function EditUsernameForm(props) {
 
+  const handleChange = (event) => {
+    sessionStorage.setItem("username", event.target.value)
+  };
+
   return (
     <div className="header">
       <form className="change-username">
@@ -10,6 +14,7 @@ function EditUsernameForm(props) {
             name="usernameInfo"
             id="usernameInfo"
             placeholder={props.userInfos.userName}
+            onChange={handleChange}
           />
         </label>
         <label for="firstnameInfo">
