@@ -101,6 +101,83 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/accounts:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Return a list of accounts
+      description: API for Accounts
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Accounts displayed successfully
+          schema:
+            $ref: '#/definitions/UserAccount'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/accounts/{accountId}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Return a list of transactions linked to an account
+      description: API for Transactions
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of the selected account
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: List of transactions displayed successfully
+          schema:
+            $ref: '#/definitions/Transactions'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/accounts/{accountId}/transactions/{transactionId}/details:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Return the details of a transaction
+      description: API for Transactions
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of the selected account
+        - in: path
+          name: transactionId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of the selected transaction
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Details displayed successfully
+          schema:
+            $ref: '#/definitions/TransactionDetails'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -132,6 +209,39 @@ definitions:
       password:
         type: string
         description: user password
+  UserAccount:
+    properties:
+      title:
+        type: string
+        description: balance title
+      balance:
+        type: string
+        description: available balance  
+  Transactions:
+    properties:
+      date:
+        type: string
+        description: date of the transaction
+      description:
+        type: string
+        description: description of the transaction  
+      amount:
+        type: string
+        description: amount of the transaction       
+      balance:
+        type: string
+        description: available balance after the transaction
+  TransactionDetails:
+    properties:
+      type:
+        type: string
+        description: transaction type
+      category:
+        type: string
+        description: category of the transaction  
+      note:
+        type: string
+        description: transaction note
   ApiResponse:
     type: object
     properties:
