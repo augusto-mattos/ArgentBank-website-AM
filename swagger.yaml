@@ -1,9 +1,9 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Bank Argent API documentation
   description: Contains all available API endpoints in this codebase
-  version: '1.0.0'
-  termsOfService: 'http://swagger.io/terms/'
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
 host: localhost:3001
 basePath: /api/v1
 schemes:
@@ -21,17 +21,17 @@ paths:
           description: Login Payload
           required: true
           schema:
-            $ref: '#/definitions/Login'
+            $ref: "#/definitions/Login"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Login Successfully
           schema:
-            $ref: '#/definitions/LoginResponse'
-        '400':
+            $ref: "#/definitions/LoginResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/signup:
     post:
@@ -45,17 +45,17 @@ paths:
           description: Signup Payload
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Signup Successfully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/profile:
     post:
@@ -66,15 +66,15 @@ paths:
       summary: User Profile API
       description: API for fetching a user profile
       #produces:
-       # - application/json
+      # - application/json
       responses:
-        '200':
+        "200":
           description: User profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
     put:
       security:
@@ -89,17 +89,17 @@ paths:
           description: Update user profile attributes
           required: true
           schema:
-            $ref: '#/definitions/UserProfile'
+            $ref: "#/definitions/UserProfile"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/accounts:
     get:
@@ -112,13 +112,13 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Accounts displayed successfully
           schema:
-            $ref: '#/definitions/UserAccount'
-        '400':
+            $ref: "#/definitions/UserAccount"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/accounts/{accountId}/transactions:
     get:
@@ -138,15 +138,15 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: List of transactions displayed successfully
           schema:
-            $ref: '#/definitions/Transactions'
-        '400':
+            $ref: "#/definitions/Transaction"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
-  /user/accounts/{accountId}/transactions/{transactionId}/details:
+  /user/accounts/{accountId}/transactions/{transactionId}:
     get:
       security:
         - Bearer: []
@@ -170,13 +170,50 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Details displayed successfully
           schema:
-            $ref: '#/definitions/TransactionDetails'
-        '400':
+            $ref: "#/definitions/TransactionDetails"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Edit transaction details
+      description: API for Transactions
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of the selected account
+        - in: path
+          name: transactionId
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of the selected transaction
+        - in: body
+          name: body
+          description: Update transaction attributes
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionDetails"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Information updated successfully
+          schema:
+            $ref: "#/definitions/TransactionDetails"
+        "400":
+          description: Invalid Fields
+        "500":
           description: Internal Server Error
 securityDefinitions:
   Bearer:
@@ -210,35 +247,59 @@ definitions:
         type: string
         description: user password
   UserAccount:
-    properties:
-      title:
-        type: string
-        description: balance title
-      balance:
-        type: string
-        description: available balance  
-  Transactions:
+    type: array
+    items:
+      type: object
+      properties:
+        title:
+          type: string
+          description: balance title
+        balance:
+          type: string
+          description: available balance
+        accountId:
+          type: string
+          description: accountId
+  Transaction:
+    type: array
+    items:
+      type: object
+      properties:
+        date:
+          type: string
+          description: date of the transaction
+        description:
+          type: string
+          description: description of the transaction
+        amount:
+          type: string
+          description: amount of the transaction
+        balance:
+          type: string
+          description: available balance after the transaction
+        transactionId:
+          type: string
+          description: transactionId
+  TransactionDetails:
     properties:
       date:
         type: string
         description: date of the transaction
       description:
         type: string
-        description: description of the transaction  
+        description: description of the transaction
       amount:
         type: string
-        description: amount of the transaction       
+        description: amount of the transaction
       balance:
         type: string
         description: available balance after the transaction
-  TransactionDetails:
-    properties:
       type:
         type: string
         description: transaction type
       category:
         type: string
-        description: category of the transaction  
+        description: category of the transaction
       note:
         type: string
         description: transaction note
